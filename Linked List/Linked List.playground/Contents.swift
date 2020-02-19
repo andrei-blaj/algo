@@ -74,6 +74,51 @@ struct LinkedList<T> {
         return node.next!
     }
     
+    public mutating func pop() -> T? {
+        // Remove the first element in the Linked List
+        defer {
+            head = head?.next
+            if isEmpty {
+                tail = nil
+            }
+        }
+        return head?.value
+    }
+    
+    public mutating func removeLast() -> T? {
+        // Remove the last element of the Linked List
+        guard let head = head else {
+            return nil
+        }
+        
+        if head.next == nil {
+            return pop()
+        }
+        
+        var prev = head
+        var current = head
+        
+        while let next = current.next {
+            prev = current
+            current = next
+        }
+        
+        prev.next = nil
+        tail = prev
+        
+        return current.value
+    }
+    
+    public mutating func remove(after node: Node<T>) -> T? {
+        defer {
+            if node.next === tail {
+                tail = node
+            }
+            node.next = node.next?.next
+        }
+        return node.next?.value
+    }
+    
 }
 
 extension LinkedList: CustomStringConvertible {
