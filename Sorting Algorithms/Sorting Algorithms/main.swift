@@ -8,8 +8,10 @@
 
 import Foundation
 
-let example: [Int] = [7, 1, 5, 3, 9, 2, 6, 4, 8]
+var example: [Int] = [7, 1, 5, 3, 9, 2, 6, 4, 8]
 
-print(mergeSort(example))
+//print(mergeSort(example))
 
+quickSort(&example, lo: 0, hi: example.count - 1)
+print(example)
 
