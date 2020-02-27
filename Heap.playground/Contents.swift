@@ -104,11 +104,11 @@ struct Heap<T> {
         
         var nextIndex = index
         
-        if leftChildIndex < endIndex && orderCriteria(nodes[leftChildIndex], nodes[index]) {
+        if leftChildIndex < endIndex && orderCriteria(nodes[leftChildIndex], nodes[nextIndex]) {
             nextIndex = leftChildIndex
         }
         
-        if rightChildIndex < endIndex && orderCriteria(nodes[rightChildIndex], nodes[index]) {
+        if rightChildIndex < endIndex && orderCriteria(nodes[rightChildIndex], nodes[nextIndex]) {
             nextIndex = rightChildIndex
         }
         
