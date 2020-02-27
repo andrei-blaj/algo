@@ -162,12 +162,14 @@ struct PriorityQueue<Element: Equatable>: Queue {
 }
 
 var priorityQueue = PriorityQueue<Int>(sort: <, elements: [1])
+
 priorityQueue.enqueue(12)
 priorityQueue.enqueue(4)
 priorityQueue.enqueue(15)
 priorityQueue.enqueue(2)
 priorityQueue.enqueue(5)
 priorityQueue.enqueue(7)
+
 while !priorityQueue.isEmpty {
     print(priorityQueue.dequeue()!)
 }
