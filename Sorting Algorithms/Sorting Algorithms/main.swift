@@ -15,5 +15,7 @@ var example: [Int] = [7, 1, 5, 3, 9, 2, 6, 4, 8]
 //quickSort(&example, lo: 0, hi: example.count - 1)
 //print(example)
 
-print(insertionSort(example))
+//print(insertionSort(example, >))
 
+bubbleSort(&example)
+print(example)
