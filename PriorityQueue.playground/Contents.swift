@@ -46,7 +46,7 @@ struct Heap<T> {
     
     public mutating func insert(_ value: T) {
         nodes.append(value)
-        // shift up from index: nodes.count - 1
+        shiftUp(from: count - 1)
     }
     
     public mutating func replace(valueAtIndex i: Int, with value: T) {
@@ -65,7 +65,7 @@ struct Heap<T> {
         } else {
             let value = nodes[0]
             nodes[0] = nodes.removeLast()
-            shiftDown(from: 0)
+            shiftDown(from: 0, until: nodes.count)
             return value
         }
     }
@@ -104,11 +104,11 @@ struct Heap<T> {
         
         var nextIndex = index
         
-        if leftChildIndex < endIndex && orderCriteria(nodes[leftChildIndex], nodes[index]) {
+        if leftChildIndex < endIndex && orderCriteria(nodes[leftChildIndex], nodes[nextIndex]) {
             nextIndex = leftChildIndex
         }
         
-        if rightChildIndex < endIndex && orderCriteria(nodes[rightChildIndex], nodes[index]) {
+        if rightChildIndex < endIndex && orderCriteria(nodes[rightChildIndex], nodes[nextIndex]) {
             nextIndex = rightChildIndex
         }
         
@@ -127,7 +127,7 @@ struct Heap<T> {
 
 public protocol Queue {
     associatedtype Element
-    mutating func enqueue(_ element: Element) -> Bool
+    mutating func enqueue(_ element: Element)
     mutating func dequeue() -> Element?
     var isEmpty: Bool { get }
     var peek: Element? { get }
@@ -141,13 +141,14 @@ struct PriorityQueue<Element: Equatable>: Queue {
         heap = Heap(array: elements, sort: sort)
     }
     
-    mutating func enqueue(_ element: Element) -> Bool {
+    mutating func enqueue(_ element: Element) {
         heap.insert(element)
-        return true
     }
     
     mutating func dequeue() -> Element? {
-        return heap.remove()
+        print(heap)
+        let value = heap.remove()
+        return value
     }
     
     var isEmpty: Bool {
@@ -158,4 +159,15 @@ struct PriorityQueue<Element: Equatable>: Queue {
         return heap.peek()
     }
     
+}
+
+var priorityQueue = PriorityQueue<Int>(sort: <, elements: [1])
+priorityQueue.enqueue(12)
+priorityQueue.enqueue(4)
+priorityQueue.enqueue(15)
+priorityQueue.enqueue(2)
+priorityQueue.enqueue(5)
+priorityQueue.enqueue(7)
+while !priorityQueue.isEmpty {
+    print(priorityQueue.dequeue()!)
 }
