@@ -19,7 +19,6 @@ func museumProblem() {
     
     let lines = readData(from: museumTestFile).components(separatedBy: "\n").joined()
     
-    
     n = Int(String(lines.first!))!
     
     var i = 0
