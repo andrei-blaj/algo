@@ -174,33 +174,106 @@ func maximumSumSubsequence(_ a: [Int]) -> Int {
     
 }
 
-func maximumSumSubsequence(_ a: [Int], k: Int) -> Int {
-    
-    // s[i] - the maximum sum of a subsequence from (0...i) of length at least k
-    var s: [Int] = Array(repeating: 0, count: a.count)
-    s[0] = a[0]
-    
-    var sol = -1000000000
-    
-    for i in 1..<a.count {
-        
-    }
-    
-    return sol
-    
-}
-
 maximumSumSubsequence(v)
-
-func printInts(_ a: [Int]) {
-    print(a)
-}
 
 let values = [-10,-3,0,5,9]
 let middle = values.count / 2
-print(values[middle])
-printInts([Int](values[0..<middle]))
-print(values[middle+1..<values.count])
+values[middle]
+[Int](values[0..<middle])
+values[middle+1..<values.count]
 
 
+func strStr_On2(_ haystack: String, _ needle: String) -> Int {
+    
+    if haystack == needle {
+         return 0
+    }
+    
+    if needle.count > haystack.count {
+        return -1
+    }
+    
+    let str = Array(haystack)
+    let pattern = Array(needle)
+    
+    for i in 0..<str.count {
+        var foundMatch = true
+        for j in 0..<pattern.count {
+            if str[i + j] != pattern[j] {
+                foundMatch = false
+                break
+            }
+        }
+        if foundMatch {
+            return i
+        }
+    }
+    
+    return -1
+}
 
+strStr_On2("abracadabra", "acada")
+
+func strStrBoyerMoore(_ haystack: String, _ needle: String) -> Int {
+    
+    if haystack == needle || needle == "" { return 0 }
+    if needle.count > haystack.count { return -1 }
+    
+    let str = Array(haystack)
+    let pattern = Array(needle)
+    
+    let patternLength = pattern.count
+    
+    var skipTable: [String: Int] = [:]
+    for (i, c) in pattern.enumerated() {
+        skipTable[String(c)] = patternLength - i - 1
+    }
+    
+    var i = patternLength - 1
+    let lastChar = pattern[patternLength - 1]
+    
+    while i < str.count {
+        let c = str[i]
+        
+        if c == lastChar {
+            // check backwards to see if the other characters from the pattern
+            // match the characters from the string
+            
+            var j = 1
+            var matchFound = true
+            while patternLength - 1 - j >= 0 {
+                if str[i - j] == pattern[(patternLength - 1) - j] {
+                    j += 1
+                } else {
+                    matchFound = false
+                    break
+                }
+            }
+            
+            if matchFound {
+                return i - patternLength + 1
+            }
+            
+            if let skipBy = skipTable[String(c)] {
+                i += max(skipBy, 1)
+            } else {
+                i += patternLength
+            }
+            
+        } else {
+            // if c is in the skip table, ship as many characters
+            // as the skip table indicates
+            // otherwise just skip one
+            if let skipBy = skipTable[String(c)] {
+                i += skipBy
+            } else {
+                i += patternLength
+            }
+        }
+        
+    }
+    
+    return -1
+}
+
+strStrBoyerMoore("abracadabra", "dabra")
