@@ -189,8 +189,18 @@ func maximumSumSubsequence(_ a: [Int], k: Int) -> Int {
     return sol
     
 }
+
 maximumSumSubsequence(v)
 
+func printInts(_ a: [Int]) {
+    print(a)
+}
+
+let values = [-10,-3,0,5,9]
+let middle = values.count / 2
+print(values[middle])
+printInts([Int](values[0..<middle]))
+print(values[middle+1..<values.count])
 
 
 
