@@ -277,3 +277,257 @@ func strStrBoyerMoore(_ haystack: String, _ needle: String) -> Int {
 }
 
 strStrBoyerMoore("abracadabra", "dabra")
+
+func divideBySubtracting(_ dividend: Int, _ divisor: Int) -> Int {
+    
+    var quotient = 0
+    var negative = false
+    
+    if dividend > 0 && divisor > 0 {
+        negative = false
+    } else {
+        negative = true
+    }
+    
+    var dividend = abs(dividend)
+    let divisor = abs(divisor)
+    
+    while dividend > divisor {
+        dividend -= divisor
+        quotient += 1
+    }
+    
+    if negative {
+        return -1 * quotient
+    } else {
+        return quotient
+    }
+    
+}
+
+divideBySubtracting(10, 3)
+divideBySubtracting(7, -3)
+
+func closedIsland(_ grid: [[Int]]) -> Int {
+    
+    if grid.count == 0 {
+        return 0
+    }
+    
+    var islandCount = 0
+    var visited: [[Bool]] = Array(repeating: Array(repeating: false, count: grid[0].count), count: grid.count)
+    
+    let n = grid.count
+    let m = grid[0].count
+    
+    for i in 0..<n {
+        for j in 0..<m {
+            if grid[i][j] == 0 && !visited[i][j] {
+                if visitGrid(i: i, j: j, grid: grid, visited: &visited) {
+                    islandCount += 1
+                }
+            }
+        }
+    }
+      
+    return islandCount
+}
+    
+func visitGrid(i: Int, j: Int, grid: [[Int]], visited: inout [[Bool]]) -> Bool {
+    
+    let n = grid.count
+    let m = grid[0].count
+    var isIsland = true
+    var order = [(Int, Int)]()
+    
+    order.append((i, j))
+    
+    while order.count > 0 {
+        
+        let coord = order.removeFirst()
+        
+        let i = coord.0
+        let j = coord.1
+        visited[i][j] = true
+        
+        if i == 0 || i == n - 1 || j == 0 || j == m - 1 {
+            isIsland = false
+        }
+        
+        if i - 1 >= 0 && !visited[i - 1][j] && grid[i - 1][j] == 0 {
+            order.append((i - 1, j))
+        }
+        
+        if i + 1 < n && !visited[i + 1][j] && grid[i + 1][j] == 0 {
+            order.append((i + 1, j))
+        }
+        
+        if j - 1 >= 0 && !visited[i][j - 1] && grid[i][j - 1] == 0 {
+            order.append((i, j - 1))
+        }
+        
+        if j + 1 < m && !visited[i][j + 1] && grid[i][j + 1] == 0 {
+            order.append((i, j + 1))
+        }
+        
+    }
+    
+    return isIsland
+    
+}
+
+//let grid = [[1,1,1,1,1,1,1,0],[1,0,0,0,0,1,1,0],[1,0,1,0,1,1,1,0],[1,0,0,0,0,1,0,1],[1,1,1,1,1,1,1,0]]
+let grid = [[0,0,1,0,0],[0,1,0,1,0],[0,1,1,1,0]]
+closedIsland(grid)
+
+func validPalindrome(_ s: String) -> Bool {
+    
+    if s == String(s.reversed()) {
+        return true
+    }
+    
+    let sArray = Array(s)
+    
+    for i in 0..<sArray.count/2 {
+        let j = sArray.count - 1 - i
+        if sArray[i] != sArray[j] {
+            return isPalindromeRange(sArray, i + 1, j) || isPalindromeRange(sArray, i, j - 1)
+        }
+    }
+
+    return true
+    
+}
+
+func isPalindromeRange(_ s: [Character], _ lo: Int, _ hi: Int) -> Bool {
+    for i in lo...(lo + (hi - lo) / 2) {
+        let j = hi - i + lo
+        if s[i] != s[j] {
+            return false
+        }
+    }
+    return true
+}
+
+validPalindrome("abca")
+
+func isAnagram(_ s: String, _ t: String) -> Bool {
+    
+    var frequency: [String: Int] = [:]
+    
+    for char in s {
+        let strChar = String(char)
+        if frequency[strChar] != nil {
+            frequency[strChar]! += 1
+        } else {
+            frequency[strChar] = 1
+        }
+    }
+    
+    for char in t {
+        let strChar = String(char)
+        if frequency[strChar] == nil {
+            return false
+        }
+        frequency[strChar]! -= 1
+    }
+    
+    for element in frequency {
+        if element.value != 0 {
+            return false
+        }
+    }
+    
+    return true
+    
+}
+
+func rankTeams(_ votes: [String]) -> String {
+    
+    // ["BCA","CAB","CBA","ABC","ACB","BAC"]
+    
+    if votes.count == 0 {
+        return ""
+    }
+    
+    var freq: [String: Int] = [:]
+    var sortedFreq: [(String, Int)] = []
+
+    for j in 0..<votes[0].count {
+        for i in 0..<votes.count {
+            let vote = Array(votes[i])
+            let strChar = String(vote[j])
+            if freq[strChar] != nil {
+                freq[strChar]! += 1
+            } else {
+                freq[strChar] = 1
+            }
+        }
+        sortedFreq = freq.sorted { $0.1 > $1.1 }
+        
+        freq = [:]
+        for s in sortedFreq {
+            freq[s.0] = s.1
+        }
+        
+        print(freq)
+        
+    }
+    
+    var sol = ""
+    for s in sortedFreq {
+        sol += s.0
+    }
+    return sol
+    
+}
+
+rankTeams(["WXYZ","XYZW"])
+//rankTeams(["BCA","CAB","CBA","ABC","ACB","BAC"])
+public class ListNode {
+    public var val: Int
+      public var next: ListNode?
+      public init(_ val: Int) {
+          self.val = val
+          self.next = nil
+      }
+  }
+
+public class TreeNode {
+      public var val: Int
+      public var left: TreeNode?
+    public var right: TreeNode?
+      public init(_ val: Int) {
+         self.val = val
+         self.left = nil
+          self.right = nil
+      }
+  }
+
+func isSubPath(_ head: ListNode?, _ root: TreeNode?) -> Bool {
+    
+    return isSubpath(head, root, head)
+    
+}
+    
+    
+func isSubpath(_ head: ListNode?, _ root: TreeNode?, _ initialHead: ListNode?) -> Bool {
+    
+    if head == nil {
+        return true
+    }
+    
+    if root == nil {
+        return false
+    }
+    
+    if root?.val == head?.val {
+        return isSubpath(head?.next, root?.left, initialHead) || isSubpath(head?.next, root?.right, initialHead) || isSubpath(initialHead, root?.left, initialHead) || isSubpath(initialHead, root?.right, initialHead)
+    } else {
+        return isSubpath(initialHead, root?.left, initialHead) || isSubpath(initialHead, root?.right, initialHead)
+    }
+}
+
+var array = [1, 2, 3, 4]
+array.removeLast()
+print(array)
