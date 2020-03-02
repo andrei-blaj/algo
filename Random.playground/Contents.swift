@@ -531,3 +531,177 @@ func isSubpath(_ head: ListNode?, _ root: TreeNode?, _ initialHead: ListNode?) -
 var array = [1, 2, 3, 4]
 array.removeLast()
 print(array)
+
+func toLowerCase(_ str: String) -> String {
+    var result = ""
+    
+    for char in Array(str) {
+        let strChar = String(char)
+        if "A" <= strChar && strChar <= "Z" {
+            // is uppercased
+            let characterAscii = char.asciiValue!
+            let lowercasedCharacterAscii = characterAscii + 32
+            result += String(UnicodeScalar(lowercasedCharacterAscii))
+        } else {
+            result += strChar
+        }
+     }
+    
+    return result
+}
+
+toLowerCase("HeLlO")
+
+print(String(UnicodeScalar(Character("c").asciiValue! - 32)))
+
+
+func isNStraightHand(_ hand: [Int], _ W: Int) -> Bool {
+    
+    var freq: [Int: Int] = [:]
+    
+    for card in hand {
+        if freq[card] == nil {
+            freq[card] = 1
+        } else {
+            freq[card]! += 1
+        }
+    }
+    
+    var tuples = freq.sorted { $0.key < $1.key }
+    freq = tuples.reduce(into: [:]) { $0[$1.0] = $1.1}
+    
+    tuples.removeFirst()
+    
+    print(freq)
+    
+    while tuples.count > 0 {
+        
+        let card = tuples.first!
+        let cardNumber = card.0
+        let cardFreq = card.1
+        
+        print("\(cardNumber): ", terminator: " ")
+        for i in cardNumber..<(cardNumber + W) {
+            print(freq[i], terminator: " ")
+            if freq[i] == nil { return false }
+            let count = freq[i]
+            if count == 1 {
+                freq.removeValue(forKey: i)
+            } else {
+                freq[i]! -= 1
+            }
+        }
+        print("")
+           
+    }
+
+    return true
+    
+}
+
+
+func reverseOnlyLetters(_ S: String) -> String {
+    
+    var s = Array(S)
+    var i = 0
+    var j = S.count - 1
+    
+    while i < j {
+        if isLetter(s[i]) && isLetter(s[j]) {
+            s.swapAt(i, j)
+            i += 1
+            j -= 1
+        } else {
+            if !isLetter(s[i]) {
+                i += 1
+            } else {
+                j -= 1
+            }
+        }
+    }
+    
+    return String(s)
+    
+}
+
+func isLetter(_ char: Character) -> Bool {
+    let strChar = String(char)
+    if "a" <= strChar && strChar <= "z" || "A" <= strChar && strChar <= "Z" {
+        return true
+    }
+    return false
+}
+
+func spiralOrder(_ matrix: [[Int]]) -> [Int] {
+    
+    if matrix.count == 0 { return [] }
+    var visited = Array(repeating: Array(repeating: false, count: matrix[0].count), count: matrix.count)
+    
+    var sol: [Int] = []
+    
+    var iLowerBound = 0
+    var iUpperBound = matrix.count - 1
+    
+    var jLowerBound = 0
+    var jUpperBound = matrix[0].count - 1
+    
+    while (iLowerBound <= iUpperBound && jLowerBound <= jUpperBound) {
+        
+        if jLowerBound <= jUpperBound {
+            for j in jLowerBound...jUpperBound {
+                if !visited[iLowerBound][j] {
+                    visited[iLowerBound][j] = true
+                    sol.append(matrix[iLowerBound][j])
+                }
+            }
+        }
+        
+        print("asdf1")
+        
+        iLowerBound += 1
+
+        print(iLowerBound, iUpperBound)
+        
+        if iLowerBound <= iUpperBound {
+            for i in iLowerBound...iUpperBound {
+                if !visited[i][jUpperBound] {
+                    visited[i][jUpperBound] = true
+                    sol.append(matrix[i][jUpperBound])
+                }
+            }
+        }
+        print("asdf2")
+
+        jUpperBound -= 1
+
+        if jLowerBound <= jUpperBound {
+            for j in stride(from: jUpperBound, to: jLowerBound - 1, by: -1) {
+                if !visited[iUpperBound][j] {
+                    visited[iUpperBound][j] = true
+                    sol.append(matrix[iUpperBound][j])
+                }
+            }
+        }
+        print("asdf3")
+
+        iUpperBound -= 1
+
+        if iLowerBound <= iUpperBound {
+            for i in stride(from: iUpperBound, to: iLowerBound - 1, by: -1) {
+                if !visited[i][jLowerBound] {
+                    visited[i][jLowerBound] = true
+                    sol.append(matrix[i][jLowerBound])
+                }
+            }
+        }
+        print("asdf4")
+
+        jLowerBound += 1
+    
+    }
+    
+    return sol
+    
+}
+
+spiralOrder([[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]])
