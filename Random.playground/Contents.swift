@@ -656,12 +656,8 @@ func spiralOrder(_ matrix: [[Int]]) -> [Int] {
             }
         }
         
-        print("asdf1")
-        
         iLowerBound += 1
 
-        print(iLowerBound, iUpperBound)
-        
         if iLowerBound <= iUpperBound {
             for i in iLowerBound...iUpperBound {
                 if !visited[i][jUpperBound] {
@@ -670,8 +666,7 @@ func spiralOrder(_ matrix: [[Int]]) -> [Int] {
                 }
             }
         }
-        print("asdf2")
-
+        
         jUpperBound -= 1
 
         if jLowerBound <= jUpperBound {
@@ -682,7 +677,6 @@ func spiralOrder(_ matrix: [[Int]]) -> [Int] {
                 }
             }
         }
-        print("asdf3")
 
         iUpperBound -= 1
 
@@ -694,7 +688,6 @@ func spiralOrder(_ matrix: [[Int]]) -> [Int] {
                 }
             }
         }
-        print("asdf4")
 
         jLowerBound += 1
     
@@ -704,4 +697,70 @@ func spiralOrder(_ matrix: [[Int]]) -> [Int] {
     
 }
 
-spiralOrder([[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]])
+func numUniqueEmails(_ emails: [String]) -> Int {
+    
+    var sol = 0
+    var exists: [String] = []
+    
+    for email in emails {
+        
+        let emailComponents = email.split(separator: "@")
+        let domainName = emailComponents[1]
+        let localNameComponent = emailComponents[0].split(separator: "+")
+        let localNameTrimmed = String(localNameComponent[0])
+        var localName = ""
+        
+        for letter in localNameTrimmed {
+            if letter != "." {
+                localName += String(letter)
+            }
+        }
+        
+        if localName + "@" + domainName == email {
+            // 1 address
+            if !exists.contains(email) {
+                sol += 1
+                exists.append(email)
+            }
+        } else {
+            // 2 addresses
+            if !exists.contains(localName) {
+                sol += 2
+                exists.append(localName)
+            }
+        }
+        
+    }
+
+    return sol
+}
+
+
+func uniqueMorseRepresentations(_ words: [String]) -> Int {
+    
+    var sol = 0
+    var exists: [String] = []
+    let morseTable = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]
+    
+    for word in words {
+        var newWord = ""
+        for letter in word {
+            let letterAscii = letter.asciiValue!
+            let aAscii = Character("a").asciiValue!
+            
+            let tableIndex = Int(letterAscii - aAscii)
+            let letterCode = morseTable[tableIndex]
+            
+            newWord += letterCode
+        }
+        
+        if !exists.contains(newWord) {
+            exists.append(newWord)
+            sol += 1
+        }
+        
+    }
+    
+    return sol
+    
+}
