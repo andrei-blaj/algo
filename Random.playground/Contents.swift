@@ -764,3 +764,29 @@ func uniqueMorseRepresentations(_ words: [String]) -> Int {
     return sol
     
 }
+
+func commonChars(_ A: [String]) -> [String] {
+    
+    var sol: [String] = []
+    var freqForString: [[Int]] = Array(repeating: Array(repeating: 0, count: 26), count: A.count)
+    
+    for (i, str) in A.enumerated() {
+        for character in str {
+            freqForString[i][Int(character.asciiValue! - Character("a").asciiValue!)] += 1
+        }
+    }
+    
+    for i in 0..<26 {
+        let letter = String(UnicodeScalar(Character("a").asciiValue! + UInt8(i)))
+        var minFreq = freqForString[i][0]
+        for j in 1..<A.count {
+            minFreq = min(minFreq, freqForString[i][j])
+        }
+        for j in 0..<minFreq {
+            sol.append(letter)
+        }
+    }
+    
+    return sol
+}
+
