@@ -242,3 +242,82 @@ func findOcurrences(_ text: String, _ first: String, _ second: String) -> [Strin
 }
 
 //findOcurrences("we will we will rock you", "we", "will")
+
+func rotatedDigits(_ N: Int) -> Int {
+    
+    var sol = 0
+    
+    for x in 1...N {
+        
+        var noGood = false
+        let str = Array(String(x))
+        var newX = 0
+        for letter in str {
+            
+            if letter == "3" || letter == "4" || letter == "7" {
+                noGood = true
+                break
+            }
+
+            newX = newX * 10
+            if letter == "5" {
+                newX += 2
+            } else if letter == "2" {
+                newX += 5
+            } else if letter == "6" {
+                newX += 9
+            } else if letter == "9" {
+                newX += 6
+            } else {
+                newX += Int(String(letter))!
+            }
+            
+        }
+        
+        if noGood {
+            continue
+        }
+        
+        if x != newX {
+            sol += 1
+        }
+        
+    }
+    
+    return sol
+    
+}
+
+// rotatedDigits(10)
+
+func reverseWords(_ s: String) -> String {
+    
+    var words: [String] = []
+    
+    var word = ""
+    for char in s {
+        if char == " " {
+            if word != "" {
+                words.append(word)
+            }
+            word = ""
+        } else {
+            word += String(char)
+        }
+    }
+    
+    if word != "" {
+        words.append(word)
+    }
+    
+    var sol = ""
+    for i in stride(from: words.count - 1, to: -1, by: -1) {
+        sol += words[i] + " "
+    }
+    
+    sol.removeLast()
+    
+    return sol
+}
+
+reverseWords("a good example")
