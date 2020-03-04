@@ -220,4 +220,25 @@ func subdomainVisits(_ cpdomains: [String]) -> [String] {
     
 }
 
-print(subdomainVisits(["900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"]))
+//print(subdomainVisits(["900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"]))
+
+func findOcurrences(_ text: String, _ first: String, _ second: String) -> [String] {
+    
+    var wordArray: [String] = []
+    var sol: [String] = []
+    
+    let words = text.split(separator: " ")
+    for word in words {
+        wordArray.append(String(word))
+    }
+    
+    for i in 0..<wordArray.count - 2 {
+        if wordArray[i] == first && wordArray[i + 1] == second {
+            sol.append(wordArray[i + 2])
+        }
+    }
+    
+    return sol
+}
+
+//findOcurrences("we will we will rock you", "we", "will")
