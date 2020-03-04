@@ -120,3 +120,46 @@ func explore(_ i: Int, _ j: Int, _ grid: [[Int]]) -> Int {
 }
 
 maxAreaOfIsland([[1,1,0,0,0],[1,1,0,0,0],[0,0,0,1,1],[0,0,0,1,1]])
+
+func openLock(_ deadends: [String], _ target: String) -> Int {
+    
+    var visited: [String] = []
+    var queue: [(String, Int)] = []
+    
+    visited.append("0000")
+    queue.append(("0000", 0))
+    
+    while !queue.isEmpty {
+        
+        let front = queue.removeFirst()
+        let currentCombination = front.0
+        let currentIndex = front.1
+        
+        print(currentCombination, currentIndex )
+        
+        if deadends.contains(currentCombination) { continue }
+        
+        if currentCombination == target {
+            return currentIndex
+        }
+
+        var comb = Array(currentCombination)
+        
+        for i in 0..<4 {
+            for j in 0...9 {
+                comb[i] = Character(String(j))
+                let strComb = String(comb)
+                if !visited.contains(strComb) && !deadends.contains(strComb) {
+                    queue.append((strComb, currentIndex + 1))
+                    visited.append(strComb)
+                }
+            }
+        }
+        
+    }
+    
+    return -1
+    
+}
+
+openLock(["0201","0101","0102","1212","2002"], "0202")
