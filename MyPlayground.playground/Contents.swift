@@ -320,4 +320,44 @@ func reverseWords(_ s: String) -> String {
     return sol
 }
 
-reverseWords("a good example")
+//reverseWords("a good example")
+
+func thirdMax(_ nums: [Int]) -> Int {
+    
+    if nums.count == 0 { return 0 }
+    if nums.count == 1 { return nums[0] }
+    if nums.count == 2 { return max(nums[0], nums[1]) }
+    
+    var max1: Int?
+    var max2: Int?
+    var max3: Int?
+    
+    for i in 0..<nums.count {
+        
+        let num = nums[i]
+        
+        if let m1 = max1, let m2 = max2, let m3 = max3 {
+            if num == m1 || num == m2 || num == m3 {
+                continue
+            }
+        }
+        
+        if max1 == nil || num > max1! {
+            max3 = max2
+            max2 = max1
+            max1 = num
+        } else if max2 == nil || num > max2! {
+            max3 = max2
+            max2 = num
+        } else if max3 == nil || num > max3! {
+            max3 = num
+        }
+        
+    }
+    
+    if max3 == nil {
+        return max1!
+    }
+    
+    return max3!
+}
