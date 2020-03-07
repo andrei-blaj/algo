@@ -136,3 +136,117 @@ func backtrack(_ output: inout [String], _ currentPermutation: String, _ openCou
     }
     
 }
+
+/**************************************************/
+
+func minRemoveToMakeValid(_ s: String) -> String {
+    
+    var stack: [Character] = []
+    
+    for letter in s {
+        if letter == "(" {
+            stack.append(letter)
+        } else if letter == ")" {
+            if !stack.isEmpty && stack.last! == "(" {
+                stack.removeLast()
+            } else {
+                stack.append(letter)
+            }
+        }
+    }
+    
+    if stack.isEmpty {
+        return s
+    }
+    
+    var output = Array(s)
+    
+    var i = 0
+    while i < output.count && !stack.isEmpty {
+        if output[i] == stack.first! {
+            output.remove(at: i)
+            stack.removeFirst()
+        } else {
+            i += 1
+        }
+    }
+    
+    return String(output)
+    
+}
+
+/**************************************************/
+
+func findTheLongestSubstring(_ s: String) -> Int {
+    
+    if s == "" { return 0 }
+    
+    var s = Array(s)
+    var n = s.count
+    
+    var a = 0
+    var e = 0
+    var i = 0
+    var o = 0
+    var u = 0
+    
+    var maxVal = 0
+    
+    for lo in 0..<n {
+        a = 0
+        e = 0
+        i = 0
+        o = 0
+        u = 0
+        for hi in lo..<n {
+            if s[hi] == "a" { a += 1 }
+            if s[hi] == "e" { e += 1 }
+            if s[hi] == "i" { i += 1 }
+            if s[hi] == "o" { o += 1 }
+            if s[hi] == "u" { u += 1 }
+            
+            if a % 2 == 0 && e % 2 == 0 && i % 2 == 0 && o % 2 == 0 && u % 2 == 0 {
+                maxVal = max(maxVal, hi - lo + 1)
+            }
+        }
+    }
+    
+    return maxVal
+    
+}
+
+func sortString(_ s: String) -> String {
+    
+    var freq = Array(repeating: 0, count: 26)
+    var result = ""
+    var letterCount = s.count
+    
+    for letter in s {
+        let index = Int(letter.asciiValue! - Character("a").asciiValue!)
+        freq[index] += 1
+    }
+    
+    while letterCount > 0 {
+        
+        for i in 0..<26 {
+            if freq[i] > 0 {
+                let letter = String(UnicodeScalar(Character("a").asciiValue! + UInt8(i)))
+                result.append(letter)
+                freq[i] -= 1
+                letterCount -= 1
+            }
+        }
+        
+        for i in stride(from: 25, to: -1, by: -1) {
+            if freq[i] > 0 {
+                let letter = String(UnicodeScalar(Character("a").asciiValue! + UInt8(i)))
+                result.append(letter)
+                freq[i] -= 1
+                letterCount -= 1
+            }
+        }
+    }
+    
+    return result
+    
+}
