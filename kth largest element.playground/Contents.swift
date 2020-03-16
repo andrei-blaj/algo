@@ -44,7 +44,6 @@ func getPivot<T: Comparable>(_ arr: inout [T], _ lo: Int, _ hi: Int) -> Int {
 }
 
 // K starting from 0
-print(findKthElement([1, 10, 4, 13, 7, 6, 11, 14], k: 7))
-
+print(findKthElement([1, 10, 4, 13, 7, 6, 11, 14], k: 2))
 
 
